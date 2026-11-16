@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - EcomStore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">EcomStore</a>
+        <a class="checkout-button" href="index.html">Continue shopping</a>
+    </header>
+    <main class="checkout-page">
+        <a class="back-link" href="index.html">← Back to store</a>
+        <h1>Checkout</h1>
+        <div class="checkout-layout">
+            <section class="checkout-card">
+                <form id="checkoutForm" class="checkout-form">
+                    <div>
+                        <h2>Delivery address</h2>
+                        <label>Full name<input name="name" autocomplete="name" required></label>
+                    </div>
+                    <label>Email address<input type="email" name="email" autocomplete="email" required></label>
+                    <label>Phone number<input type="tel" name="phone" autocomplete="tel" required></label>
+                    <label>Street address<textarea name="address" autocomplete="street-address" required></textarea></label>
+                    <label>City and PIN code<input name="cityPin" autocomplete="postal-code" required></label>
+                    <div>
+                        <h2>Coupon</h2>
+                        <div class="coupon-row">
+                            <input id="couponInput" placeholder="Enter coupon code" aria-label="Coupon code">
+                            <button id="applyCoupon" type="button">Apply</button>
+                        </div>
+                        <p id="couponMessage" class="checkout-message" aria-live="polite"></p>
+                    </div>
+                    <div>
+                        <h2>Payment method</h2>
+                        <div class="payment-options">
+                            <label><input type="radio" name="payment" value="Cash on delivery" checked> Cash on delivery</label>
+                            <label><input type="radio" name="payment" value="UPI / online payment"> UPI / online payment</label>
+                        </div>
+                    </div>
+                    <button class="place-order-button" type="submit">Proceed to Payment</button>
+                    <p id="orderMessage" class="checkout-message" aria-live="polite"></p>
+                </form>
+            </section>
+            <aside class="checkout-card">
+                <h2>Your order</h2>
+                <div id="checkoutItems"></div>
+                <div class="checkout-summary-row"><span>Subtotal</span><strong id="subtotal"></strong></div>
+                <div class="checkout-summary-row"><span>Discount</span><strong id="discount"></strong></div>
+                <div class="checkout-summary-row checkout-grand-total"><span>Total</span><strong id="total"></strong></div>
+                <p id="emptyCheckout" class="checkout-message"></p>
+            </aside>
+        </div>
+    </main>
+    <script src="checkout.js"></script>
+</body>
+</html>

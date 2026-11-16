@@ -18,7 +18,7 @@ const closeModal = document.getElementById("closeModal");
 
 // Step 2: Initial Project Data
 
-const products = [
+const DEFAULT_PRODUCTS = [
     { id: 1, name: "Wireless Headphones", price: 1299, Categories: "electronics", rating: 4.5, image: "https://m.media-amazon.com/images/I/31818K7ii3L._SY300_SX300_QL70_FMwebp_.jpg" },
     { id: 2, name: "Bluetooth Speaker", price: 899, Categories: "electronics", rating: 4.2, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400" },
     { id: 3, name: "Smart Watch", price: 1599, Categories: "electronics", rating: 4.3, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
@@ -30,6 +30,23 @@ const products = [
     { id: 9, name: "Table Lamp", price: 799, Categories: "home & living", rating: 4.2, image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
     { id: 10, name: "Coffee Mug", price: 299, Categories: "home & living", rating: 4.0, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400" }
 ];
+
+const PRODUCTS_STORAGE_KEY = "ecomstore-products";
+function loadProducts() {
+    try {
+        const savedProducts = JSON.parse(localStorage.getItem(PRODUCTS_STORAGE_KEY));
+        return Array.isArray(savedProducts) && savedProducts.length ? savedProducts : DEFAULT_PRODUCTS;
+    } catch (error) {
+        console.error("Unable to load saved products:", error);
+        return DEFAULT_PRODUCTS;
+    }
+}
+const products = loadProducts();
+try {
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
+} catch (error) {
+    console.error("Unable to save products:", error);
+}
 
 
 // Step 3: Cart Data
@@ -60,12 +77,7 @@ function loadCart() {
 
 function saveCart() {
     try {
-        const cartItems = cart.map(item => ({
-            id: item.id,
-            quantity: item.quantity
-        }));
-
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     } catch (error) {
         console.error("Unable to save the cart:", error);
     }
@@ -413,6 +425,17 @@ function addTocart(productId){
     }
 
     updateCart()
+    showCartToast(`${product.name} has been added to your cart successfully.`);
+}
+
+let toastTimeout;
+function showCartToast(message) {
+    const toast = document.getElementById("cartToast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("visible");
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove("visible"), 2800);
 }
 
 // update cart
