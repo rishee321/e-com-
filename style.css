@@ -706,6 +706,20 @@ header {
 .checkout-form .payment-options { display: flex; flex-wrap: wrap; gap: 16px; }
 .checkout-form .payment-options label { display: flex; align-items: center; gap: 7px; }
 .payment-options input { width: auto; }
+.demo-payment-fields { display: grid; gap: 12px; margin-top: 16px; padding: 16px; border: 1px dashed var(--line); border-radius: 12px; background: #fffaf4; }
+.demo-payment-fields[hidden] { display: none; }
+.demo-payment-note { margin: 0; color: var(--accent-dark); font-size: 12px; line-height: 1.5; }
+.card-detail-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.order-success-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; background: rgb(18 28 24 / 58%); }
+.order-success-modal[hidden] { display: none; }
+.order-success-card { width: min(440px, 100%); padding: 34px; border-radius: 20px; background: var(--paper); text-align: center; box-shadow: 0 24px 70px rgb(0 0 0 / 25%); animation: modal-in 220ms ease both; }
+.success-check { display: grid; width: 58px; height: 58px; margin: 0 auto 18px; place-items: center; border-radius: 50%; background: #e3f4e9; color: #248049; font-size: 32px; font-weight: 800; }
+.success-eyebrow { margin: 0 0 8px; color: var(--accent-dark); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.order-success-card h2 { margin: 0 0 10px; color: var(--ink); font-family: 'Playfair Display', Georgia, serif; font-size: 28px; }
+.order-success-card p { color: var(--ink-soft); }
+.success-order-number { margin: 18px 0; font-size: 13px; }
+.success-order-number strong { color: var(--ink); }
+.order-success-card .place-order-button { width: 100%; }
 .coupon-row { display: flex; gap: 8px; }
 .coupon-row input { flex: 1; min-width: 0; }
 .coupon-row button, .place-order-button { min-height: 44px; padding: 10px 15px; border: 0; border-radius: 10px; background: var(--ink); color: white; font-weight: 800; }

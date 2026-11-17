@@ -33,7 +33,7 @@ if (savedDraft && typeof savedDraft === "object") {
 }
 
 function saveDraft() {
-    const data = Object.fromEntries(new FormData(checkoutForm).entries());
+    const data = Object.fromEntries([...new FormData(checkoutForm).entries()].filter(([key]) => !["cardName", "cardNumber", "cardExpiry", "cardCvv"].includes(key)));
     data.couponCode = document.getElementById("couponInput").value;
     data.couponApplied = couponApplied;
     try { localStorage.setItem(CHECKOUT_DRAFT_KEY, JSON.stringify(data)); }
@@ -42,6 +42,16 @@ function saveDraft() {
 checkoutForm.addEventListener("input", saveDraft);
 checkoutForm.addEventListener("change", saveDraft);
 document.getElementById("couponInput").addEventListener("input", saveDraft);
+
+const demoPaymentFields = document.getElementById("demoPaymentFields");
+const cardFields = ["cardName", "cardNumber", "cardExpiry", "cardCvv"].map(name => checkoutForm.elements.namedItem(name));
+function syncPaymentFields() {
+    const isOnline = checkoutForm.elements.namedItem("payment").value === "UPI / online payment";
+    demoPaymentFields.hidden = !isOnline;
+    cardFields.forEach(field => { field.required = isOnline; });
+}
+checkoutForm.querySelectorAll('input[name="payment"]').forEach(input => input.addEventListener("change", syncPaymentFields));
+syncPaymentFields();
 
 const itemContainer = document.getElementById("checkoutItems");
 const emptyMessage = document.getElementById("emptyCheckout");
@@ -101,8 +111,12 @@ checkoutForm.addEventListener("submit", event => {
         localStorage.setItem(ORDER_KEY, JSON.stringify([...orders, order]));
         localStorage.removeItem(CART_KEY);
         localStorage.removeItem(CHECKOUT_DRAFT_KEY);
-        document.getElementById("orderMessage").textContent = `Order ${order.id} placed successfully. Payment: ${order.payment}.`;
+        document.getElementById("successOrderId").textContent = order.id;
+        const successModal = document.getElementById("orderSuccessModal");
+        successModal.hidden = false;
+        document.getElementById("successContinue").focus();
         event.currentTarget.reset();
+        syncPaymentFields();
         cart.length = 0;
         renderSummary();
     } catch (error) {
@@ -112,3 +126,5 @@ checkoutForm.addEventListener("submit", event => {
 });
 
 renderSummary();
+
+document.getElementById("successContinue").addEventListener("click", () => { window.location.href = "index.html"; });

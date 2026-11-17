@@ -425,7 +425,7 @@ function addTocart(productId){
     }
 
     updateCart()
-    showCartToast(`${product.name} has been added to your cart successfully.`);
+    showCartToast(`${product.name} was added to your cart successfully.`);
 }
 
 let toastTimeout;
